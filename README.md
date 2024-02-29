@@ -1,2 +1,2 @@
-# Small_Projects
-A collection of small projects built in Python
+A collection of small projects built in Python 3
+
