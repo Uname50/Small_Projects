@@ -29,6 +29,7 @@ from Higher_Or_Lower_data import data
 # main functions
 def higher_lower():
     
+    score = 0
     choice_a = random.choice(data)
     choice_b = random.choice(data)
 
@@ -36,8 +37,16 @@ def higher_lower():
     print(f"Against B: {choice_b['name']}, {choice_b['description']} from {choice_b['country']}")
     print("Who has more followers? Type 'A' or 'B'")
     user_guess = input()
-
     
+    # check input
+    if user_guess.lower() in ['a', 'b']:
+        score += 1
+        print(f"You're right! Current score: {score}")
+    # if incorrect, end the game
+    else: 
+        print(f"Sorry, that's wrong! Final score: {score}")
+
+
 
 higher_lower()
 
