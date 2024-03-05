@@ -5,52 +5,56 @@ Draws data from a predefined set, uses CLI to let the user pick who has the high
 import random
 from Higher_Or_Lower_data import data
 
-# Example CLI: 
+# get a random account to compare
+def get_random_account():
+    return random.choice(data)
 
-# You're right! Current score: int
-# Compare A: Vin Diesel, actor from the US 
-# VS 
-# Against B: Shawn Mendes, musician from Canada 
+# format and print the data
+def format_account(account):
+    name = account["name"]
+    description = account["description"]
+    country = account["country"]
+    return f"{name}, {description} from {country}"
 
-# Who has more followers? Type 'A' or 'B' 
-
-# user inputs the letter 
-
-# compare the number of followers 
-# if the guess is correct: 
-# - let the user know (You're right! Current score: int)
-# - increment the score
-# - move the correct option (the higher follower count) to be the option A
-# - pick a new random pick from the list as the new option B 
-
-# if the user is wrong:
-# let the user know (Sorry, that's wrong. Final score: int)
-
-# main functions
+# check the answer and compare the folowers
+def check_answer(guess, a_count, b_count):
+    if a_count > b_count:
+        return guess == "a"
+    else:
+        return guess == "b"
+    
+# start the game
 def higher_lower():
-    
+
+    # initialize the current score and the continue flag
     score = 0
-    choice_a = random.choice(data)
-    choice_b = random.choice(data)
+    continue_game = True
 
-    print(f"Compare A: {choice_a['name']}, {choice_a['description']} from {choice_a['country']}\nVS")
-    print(f"Against B: {choice_b['name']}, {choice_b['description']} from {choice_b['country']}")
-    print("Who has more followers? Type 'A' or 'B'")
-    user_guess = input()
-    
-    # check input
-    if user_guess.lower() in ['a', 'b']:
-        score += 1
-        print(f"You're right! Current score: {score}")
-    # if incorrect, end the game
-    else: 
-        print(f"Sorry, that's wrong! Final score: {score}")
+    # get random accounts to compare
+    a_account = get_random_account()
+    b_account = get_random_account()
 
+    # while the flag is True, the user keeps playing
+    while continue_game:
+        # get random accounts. the previous winner goes on top of the screen 
+        a_account = b_account
+        b_account = get_random_account()
+
+        print(f"Compare A: {format_account(a_account)}\nVS")
+        print(f"Against B: {format_account(b_account)}")
+
+
+        guess = input("Who has more followers? Type 'A' or 'B': ").lower()
+        a_follower_count = a_account["follower_count"]
+        b_follower_count = b_account["follower_count"]
+        is_correct = check_answer(guess, a_follower_count, b_follower_count)
+
+        if is_correct:
+            score += 1
+            print(f"You're right! Current score: {score}")
+        else:
+            continue_game = False
+            print(f"Sorry, that's wrong! Final score: {score}")
 
 
 higher_lower()
-
-# data file 
-# format: {name: str, follower_count: int, description: str, country: str}
-
-
